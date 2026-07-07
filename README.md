@@ -2,7 +2,7 @@
 
 AI-powered English pronunciation assessment. Upload 30–45 seconds of English speech and get instant feedback with word-level analysis, scores, and IPA guidance.
 
-**Live URL:** _[To be filled after deployment]_
+**Live URL:** [https://pronunciation-coach-pqzc.onrender.com](https://pronunciation-coach-pqzc.onrender.com)
 
 ## Tech Stack
 
