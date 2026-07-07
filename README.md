@@ -27,7 +27,7 @@ AI-powered English pronunciation assessment. Upload 30–45 seconds of English s
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/pronunciation-coach.git
+git clone https://github.com/coder-lovek/pronunciation-coach.git
 cd pronunciation-coach
 
 # Create virtual environment

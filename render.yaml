@@ -2,7 +2,7 @@ services:
   - type: web
     name: pronunciation-coach
     runtime: docker
-    repo: https://github.com/YOUR_USERNAME/pronunciation-coach
+    repo: https://github.com/coder-lovek/pronunciation-coach
     plan: free
     envVars:
       - key: OPENAI_API_KEY
