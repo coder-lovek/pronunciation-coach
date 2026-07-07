@@ -80,7 +80,7 @@ app.add_middleware(
 async def health():
     return {
         "status": "healthy",
-        "api_configured": bool(os.environ.get("OPENAI_API_KEY")),
+        "api_configured": bool(os.environ.get("GROQ_API_KEY")),
     }
 
 

@@ -11,6 +11,7 @@ considering common ESL patterns and Whisper's confidence signals.
 import io
 import json
 import logging
+import os
 
 from openai import AsyncOpenAI
 
@@ -22,10 +23,13 @@ _client = None
 
 
 def _get_client() -> AsyncOpenAI:
-    """Lazy-init the OpenAI client so the app can start without an API key."""
+    """Lazy-init the OpenAI client to point to Groq's API."""
     global _client
     if _client is None:
-        _client = AsyncOpenAI()
+        _client = AsyncOpenAI(
+            base_url="https://api.groq.com/openai/v1",
+            api_key=os.environ.get("GROQ_API_KEY"),
+        )
     return _client
 
 # ---------------------------------------------------------------------------
@@ -48,7 +52,7 @@ async def transcribe_audio(audio_bytes: bytes, filename: str) -> dict:
     audio_file.name = filename or "audio.wav"
 
     response = await _get_client().audio.transcriptions.create(
-        model="whisper-1",
+        model="whisper-large-v3",
         file=audio_file,
         response_format="verbose_json",
         timestamp_granularities=["word", "segment"],
@@ -196,7 +200,7 @@ IMPORTANT:
 - Provide IPA only for words that need correction."""
 
     response = await _get_client().chat.completions.create(
-        model="gpt-4o-mini",
+        model="llama3-8b-8192",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
@@ -210,7 +214,7 @@ IMPORTANT:
     try:
         result = json.loads(raw)
     except json.JSONDecodeError:
-        logger.error("GPT-4o-mini returned invalid JSON: %s", raw[:500])
+        logger.error("LLM returned invalid JSON: %s", raw[:500])
         raise RuntimeError("Pronunciation analysis returned an invalid response. Please try again.")
 
     # Build typed word assessments
