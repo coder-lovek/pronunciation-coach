@@ -34,15 +34,14 @@ Pronunciation Coach is a web application that assesses English pronunciation fro
 │             │                              │                       │
 │             ▼                              ▼                       │
 │  ┌──────────────────┐          ┌────────────────────────┐          │
-│  │ OpenAI Whisper    │          │ OpenAI GPT-4o-mini     │          │
-│  │ (whisper-1)       │          │ (chat.completions)     │          │
-│  │                   │          │                        │          │
-│  │ IN:  audio bytes  │          │ IN:  transcription,    │          │
-│  │ OUT: text,        │─────────→│      segments, metrics │          │
-│  │      segments     │          │ OUT: JSON with per-word│          │
-│  │      (avg_logprob)│          │      scores, IPA,      │          │
-│  │      words        │          │      summary           │          │
-│  │      (timestamps) │          │                        │          │
+│  │ Groq Whisper     │          │ Groq Llama 3.1 8B      │          │
+│  │ (large-v3)       │          │ (llama-3.1-8b-instant) │          │
+│  │                  │          │                        │          │
+│  │ IN:  audio bytes │          │ IN:  transcription,    │          │
+│  │ OUT: text,       │─────────→│      segments, metrics │          │
+│  │      segments    │          │ OUT: JSON with per-word│          │
+│  │      words       │          │      scores, IPA,      │          │
+│  │                  │          │      summary           │          │
 │  └──────────────────┘          └────────────────────────┘          │
 │                                                                     │
 │  Audio bytes deleted from memory after response (DPDP)              │
@@ -53,34 +52,34 @@ Pronunciation Coach is a web application that assesses English pronunciation fro
 
 ## 3. Models & APIs — What and Why
 
-### OpenAI Whisper (`whisper-1`)
+### Groq Whisper (`whisper-large-v3`)
 
-**Role:** Speech-to-text transcription with word-level timestamps and segment-level confidence.
+**Role:** Speech-to-text transcription with word-level timestamps.
 
-**Why Whisper over alternatives:**
+**Why Groq Whisper over alternatives:**
 
 | Alternative | Trade-off |
 |-------------|-----------|
-| Google Cloud STT | Word-level confidence scores, but requires GCP project + service account. Whisper is simpler to integrate via a single API key. |
+| OpenAI Whisper | Same underlying model, but Groq provides inference at significantly higher speeds and offers a generous free tier. |
 | Azure Speech (Pronunciation Assessment) | Gold-standard phoneme-level scoring, but requires Azure account, SDK setup, and a more complex integration. Best upgrade path for v2. |
-| Deepgram | Great word-level confidence, but adds a second API provider. Whisper + GPT-4o-mini keeps everything under one OpenAI key. |
+| Deepgram | Great word-level confidence, but adds a second API provider. Groq keeps both transcription and LLM inference under one API key. |
 | Browser Web Speech API | Free but wildly inconsistent across browsers, no confidence data, poor non-native accent handling. |
 
 **Key outputs used:**
 - `text` — full transcription
-- `segments[].avg_logprob` — segment confidence (lower = less confident = potential pronunciation issue)
 - `segments[].no_speech_prob` — silence detection
 - `words[].word`, `words[].start`, `words[].end` — word boundaries for metric computation
 
-### OpenAI GPT-4o-mini
+### Groq Llama 3.1 8B (`llama-3.1-8b-instant`)
 
 **Role:** Analyze the transcription to identify pronunciation issues and produce structured feedback.
 
-**Why GPT-4o-mini:**
-- **Cost-effective** — ~20× cheaper than GPT-4o, fast enough for real-time use
-- **JSON mode** — `response_format: json_object` ensures valid structured output
-- **Contextual reasoning** — can infer mispronunciation from context (e.g., "tree" transcribed where "three" was intended = th/t confusion)
-- **IPA knowledge** — can generate correct IPA pronunciations for flagged words
+**Why Llama 3.1 8B via Groq:**
+- **Incredible Speed** — Groq's LPU architecture provides instant token generation, crucial for real-time app responsiveness.
+- **Cost-effective** — Generous free tier.
+- **JSON mode** — `response_format: json_object` ensures valid structured output.
+- **Contextual reasoning** — can infer mispronunciation from context (e.g., "tree" transcribed where "three" was intended = th/t confusion).
+- **IPA knowledge** — can generate correct IPA pronunciations for flagged words.
 
 ---
 
