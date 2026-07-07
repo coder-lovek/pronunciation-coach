@@ -97,7 +97,7 @@ Audio → Whisper → Transcription + Segments + Words
               └─ Avg Segment Confidence
                          │
                          ▼
-              GPT-4o-mini Analysis
+              Llama 3.1 8B Analysis
               ├─ Overall Score (0-100)
               ├─ Fluency Score (0-100)
               ├─ Clarity Score (0-100)
@@ -115,7 +115,7 @@ Audio → Whisper → Transcription + Segments + Words
    - **Pause ratio**: High pause ratio = hesitation
    - **Avg confidence**: Segments with `avg_logprob < -0.5` indicate Whisper struggled, likely due to unclear pronunciation
 
-3. **GPT-4o-mini receives the transcription + metrics** and applies its knowledge of:
+3. **Llama 3.1 8B receives the transcription + metrics** and applies its knowledge of:
    - Common ESL pronunciation patterns (th/s, r/l, v/w, vowel shifts, consonant clusters)
    - Contextual analysis — if a transcribed word doesn't fit the context, the speaker likely mispronounced a similar word
    - The relationship between Whisper's confidence and pronunciation clarity
@@ -167,8 +167,8 @@ Audio is used **solely** for pronunciation assessment. It is not:
 ### 5.4 Data Residency & Cross-Border Transfer
 
 - **Server:** Render (US-based hosting)
-- **APIs:** OpenAI (US-based processing)
-- **Disclosure:** The privacy section clearly states that audio is sent to OpenAI's US-based servers
+- **APIs:** Groq (US-based processing)
+- **Disclosure:** The privacy section clearly states that audio is sent to Groq's US-based servers
 - **Mitigation:** Since no data is stored and processing is ephemeral, cross-border data concerns are minimised. No personal data persists outside the request lifecycle.
 
 ### 5.5 Deletion & Retention
@@ -192,7 +192,7 @@ Audio is used **solely** for pronunciation assessment. It is not:
 | Decision | Trade-off | Rationale |
 |----------|-----------|-----------|
 | Whisper + LLM vs. Azure Pronunciation Assessment | Less granular (no phoneme-level scoring) | Single API provider, simpler setup, faster to ship. Azure would be the v2 upgrade. |
-| GPT-4o-mini vs. GPT-4o | Slightly less nuanced analysis | 20× cheaper, fast enough, and pronunciation patterns are well within its capability. |
+| Groq Llama 3.1 8B vs. GPT-4o | Slightly less nuanced analysis | 100% free, ultra-fast generation, and pronunciation patterns are well within its capability. |
 | Render free tier | Cold starts (~30s after 15 min idle) | Zero cost, sufficient for demo. Paid tier eliminates cold starts. |
 | No user accounts | No history, no progress tracking | Maximises DPDP compliance, simplifies architecture. |
 | Client-side duration validation | Can be bypassed (server also validates) | Better UX — instant feedback before upload. Server is the source of truth. |
