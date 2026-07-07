@@ -1,274 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pronunciation Coach — AI-Powered English Pronunciation Assessment</title>
-  <meta name="description" content="Upload your English speech recording and get instant AI-powered pronunciation feedback with word-level analysis, scores, and IPA guidance.">
-  <meta name="theme-color" content="#0a0a14">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎤</text></svg>">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speech Assessment Tool</title>
+  <meta name="description" content="Professional English pronunciation assessment tool. Upload 30-45 seconds of speech for word-level analysis." />
+  
+  <!-- Modern standard font (Inter) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
-  <!-- Animated background -->
-  <div class="bg-gradient" aria-hidden="true"></div>
-  <div class="bg-grid" aria-hidden="true"></div>
-
+  
   <main class="container">
-    <!-- ─── Hero ─────────────────────────────────────────────── -->
-    <header class="hero">
-      <span class="badge">✨ AI-Powered</span>
-      <h1 class="title">Pronunciation <span class="gradient-text">Coach</span></h1>
-      <p class="subtitle">
-        Upload 30–45 seconds of English speech and get instant pronunciation
-        feedback with word-level analysis and IPA guidance.
-      </p>
+    <header class="header">
+      <h1>Speech Assessment Tool</h1>
+      <p class="subtitle">Upload 30–45 seconds of English speech to receive an objective, word-level pronunciation assessment.</p>
     </header>
 
-    <!-- ─── Upload Section ───────────────────────────────────── -->
-    <section id="upload-section" class="card glass animate-in">
-      <!-- Tabs -->
+    <div class="card main-card">
+      
+      <!-- TABS -->
       <div class="tabs" role="tablist">
-        <button class="tab active" role="tab" aria-selected="true" data-tab="upload" id="tab-btn-upload">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Upload File
-        </button>
-        <button class="tab" role="tab" aria-selected="false" data-tab="record" id="tab-btn-record">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-          Record
-        </button>
+        <button class="tab active" data-tab="upload" role="tab" aria-selected="true">Upload File</button>
+        <button class="tab" data-tab="record" role="tab" aria-selected="false">Record Audio</button>
       </div>
 
-      <!-- Upload Tab -->
-      <div id="tab-upload" class="tab-content active" role="tabpanel" aria-labelledby="tab-btn-upload">
-        <div id="drop-zone" class="drop-zone" tabindex="0" role="button" aria-label="Upload audio file">
-          <div class="drop-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <div class="tab-panels">
+        
+        <!-- UPLOAD TAB -->
+        <div id="tab-upload" class="tab-content active" role="tabpanel">
+          <div class="upload-zone" id="drop-zone" tabindex="0" role="button" aria-label="Upload audio file">
+            <svg class="icon-upload" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <p class="upload-title">Select an audio file or drag and drop</p>
+            <p class="upload-hint">WAV, MP3, M4A, FLAC, OGG, WebM • 30–45 seconds</p>
+            <input type="file" id="file-input" accept="audio/*,video/*" hidden />
           </div>
-          <p class="drop-text">Drag &amp; drop your audio file here</p>
-          <p class="drop-subtext">or click to browse</p>
-          <p class="drop-formats">WAV · MP3 · M4A · FLAC · OGG · WebM&emsp;•&emsp;30–45 seconds</p>
-          <input type="file" id="file-input" accept="audio/*" hidden>
+        </div>
+
+        <!-- RECORD TAB -->
+        <div id="tab-record" class="tab-content" role="tabpanel">
+          <div class="recorder-zone">
+            <div class="timer" id="record-timer" aria-live="polite">00:00</div>
+            <p class="record-hint" id="record-range-hint">Target duration: 30–45 seconds</p>
+            
+            <div class="recorder-controls">
+              <button id="btn-record" class="btn btn-outline">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg>
+                Record
+              </button>
+              <button id="btn-stop-record" class="btn btn-outline" disabled>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12"/></svg>
+                Stop
+              </button>
+            </div>
+            
+            <canvas id="visualizer-canvas" class="visualizer" height="60" aria-hidden="true"></canvas>
+          </div>
         </div>
       </div>
 
-      <!-- Record Tab -->
-      <div id="tab-record" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-record">
-        <div class="recorder">
-          <div class="record-visualizer" id="record-visualizer">
-            <canvas id="visualizer-canvas" width="600" height="100"></canvas>
-          </div>
-          <div class="record-timer" id="record-timer">00:00</div>
-          <p class="record-range-hint" id="record-range-hint">Record between 30 and 45 seconds</p>
-          <div class="record-controls">
-            <button id="btn-record" class="btn btn-record" type="button">
-              <span class="record-dot"></span>
-              Start Recording
-            </button>
-            <button id="btn-stop-record" class="btn btn-stop" type="button" disabled>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
-              Stop
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Audio Preview (shown after file selected / recording done) -->
+      <!-- AUDIO PREVIEW -->
       <div id="audio-preview" class="audio-preview hidden">
         <div class="file-info">
-          <div class="file-meta">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-            <span id="file-name" class="file-name"></span>
-            <span id="file-duration" class="file-duration"></span>
-          </div>
-          <button id="btn-remove" class="btn-remove" aria-label="Remove file" type="button">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+          <span id="file-name" class="truncate">recording.webm</span>
+          <span id="file-duration" class="badge">0.0s</span>
+          <button id="btn-remove" class="btn-icon" aria-label="Remove file">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
         </div>
         <audio id="audio-player" controls></audio>
       </div>
 
-      <!-- Error message -->
-      <div id="error-banner" class="error-banner hidden" role="alert">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-        <span id="error-text"></span>
+      <!-- ERROR BANNER -->
+      <div id="error-banner" class="alert alert-error hidden" role="alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <span id="error-text">An error occurred.</span>
       </div>
 
-      <!-- Consent -->
-      <label class="consent-label" id="consent-label">
-        <input type="checkbox" id="consent-checkbox">
-        <span class="checkmark"></span>
-        <span class="consent-text">
-          I consent to my audio being processed for pronunciation assessment.
-          Audio is processed in memory and <strong>deleted immediately</strong> after analysis.
-          <a href="#privacy" class="consent-link">Privacy details ↓</a>
-        </span>
-      </label>
-
-      <!-- Analyze Button -->
-      <button id="btn-analyze" class="btn btn-primary" disabled type="button">
-        <span class="btn-text">Analyze Pronunciation</span>
-        <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
-    </section>
-
-    <!-- ─── Loading Section ──────────────────────────────────── -->
-    <section id="loading-section" class="card glass hidden">
-      <div class="loading">
-        <div class="loading-ring">
-          <svg viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="50" class="loading-ring-bg"/>
-            <circle cx="60" cy="60" r="50" class="loading-ring-fill"/>
-          </svg>
-          <div class="loading-icon">🎧</div>
-        </div>
-        <p id="loading-text" class="loading-text">Uploading audio…</p>
-        <div class="loading-steps">
-          <div class="loading-step active" data-step="1">
-            <div class="step-dot"></div><span>Upload</span>
-          </div>
-          <div class="loading-step" data-step="2">
-            <div class="step-dot"></div><span>Transcribe</span>
-          </div>
-          <div class="loading-step" data-step="3">
-            <div class="step-dot"></div><span>Analyze</span>
-          </div>
-          <div class="loading-step" data-step="4">
-            <div class="step-dot"></div><span>Score</span>
-          </div>
-        </div>
+      <!-- CONSENT (DPDP) -->
+      <div class="consent-box">
+        <label class="checkbox-label">
+          <input type="checkbox" id="consent-checkbox" />
+          <span class="checkbox-text">
+            I agree to the processing of this audio file for assessment purposes. The file is processed in memory and immediately discarded. No data is stored.
+          </span>
+        </label>
       </div>
-    </section>
 
-    <!-- ─── Results Section ──────────────────────────────────── -->
-    <section id="results-section" class="hidden">
+      <!-- ACTION -->
+      <div class="action-bar">
+        <button id="btn-analyze" class="btn btn-primary w-full" disabled>
+          Run Assessment
+        </button>
+      </div>
+    </div>
 
-      <!-- Score Cards -->
-      <div class="scores-grid">
-        <div class="score-card glass" id="score-pronunciation">
-          <div class="score-ring-wrap">
-            <svg class="score-ring" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="50" class="ring-bg"/>
-              <circle cx="60" cy="60" r="50" class="ring-fill" data-score="0"/>
-            </svg>
-            <div class="score-value" data-target="0">0</div>
+    <!-- LOADING STATE -->
+    <div id="loading-section" class="card hidden">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <h3 id="loading-text">Analyzing audio...</h3>
+        <p class="text-muted">This typically takes 10-15 seconds.</p>
+      </div>
+    </div>
+
+    <!-- RESULTS SECTION -->
+    <div id="results-section" class="results-container hidden">
+      <div class="card results-header-card">
+        <h2>Assessment Report</h2>
+        <button id="btn-retry" class="btn btn-outline btn-sm">New Assessment</button>
+      </div>
+
+      <!-- METRICS -->
+      <div class="metrics-grid">
+        <div class="metric-card" id="score-pronunciation">
+          <div class="metric-header">
+            <span class="metric-title">Overall Score</span>
+            <span class="score-value">0</span><span class="score-max">/100</span>
           </div>
-          <div class="score-label">Pronunciation</div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
         </div>
-        <div class="score-card glass" id="score-fluency">
-          <div class="score-ring-wrap">
-            <svg class="score-ring" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="50" class="ring-bg"/>
-              <circle cx="60" cy="60" r="50" class="ring-fill" data-score="0"/>
-            </svg>
-            <div class="score-value" data-target="0">0</div>
+        <div class="metric-card" id="score-fluency">
+          <div class="metric-header">
+            <span class="metric-title">Fluency</span>
+            <span class="score-value">0</span><span class="score-max">/100</span>
           </div>
-          <div class="score-label">Fluency</div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
         </div>
-        <div class="score-card glass" id="score-clarity">
-          <div class="score-ring-wrap">
-            <svg class="score-ring" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="50" class="ring-bg"/>
-              <circle cx="60" cy="60" r="50" class="ring-fill" data-score="0"/>
-            </svg>
-            <div class="score-value" data-target="0">0</div>
+        <div class="metric-card" id="score-clarity">
+          <div class="metric-header">
+            <span class="metric-title">Clarity</span>
+            <span class="score-value">0</span><span class="score-max">/100</span>
           </div>
-          <div class="score-label">Clarity</div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
         </div>
       </div>
 
-      <!-- Word-by-Word Analysis -->
-      <div class="card glass animate-in">
-        <h2 class="section-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          Word-by-Word Analysis
-        </h2>
-        <p class="section-hint">Click any highlighted word for detailed feedback</p>
-        <div id="word-analysis" class="word-analysis"></div>
-      </div>
-
-      <!-- Word Detail (shown on click) -->
-      <div id="word-detail" class="card glass word-detail-card hidden animate-in">
-        <div class="detail-header">
-          <h3 id="detail-word" class="detail-word"></h3>
-          <span id="detail-status-badge" class="detail-status-badge"></span>
+      <!-- SUMMARY & FEEDBACK -->
+      <div class="feedback-grid">
+        <div class="card">
+          <h3>Summary</h3>
+          <p id="summary-text" class="text-body"></p>
         </div>
-        <div id="detail-content" class="detail-content"></div>
-      </div>
-
-      <!-- Summary -->
-      <div class="card glass animate-in">
-        <h2 class="section-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          Assessment Summary
-        </h2>
-        <p id="summary-text" class="summary-text"></p>
-
-        <div class="feedback-grid">
-          <div class="feedback-column">
-            <h3 class="feedback-heading success-heading">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              Strengths
-            </h3>
-            <ul id="strengths-list" class="feedback-list"></ul>
-          </div>
-          <div class="feedback-column">
-            <h3 class="feedback-heading improve-heading">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Areas to Improve
-            </h3>
-            <ul id="improvements-list" class="feedback-list"></ul>
-          </div>
+        <div class="card">
+          <h3>Strengths</h3>
+          <ul id="strengths-list" class="feedback-list list-positive"></ul>
+        </div>
+        <div class="card">
+          <h3>Areas for Improvement</h3>
+          <ul id="improvements-list" class="feedback-list list-negative"></ul>
         </div>
       </div>
 
-      <!-- Try Again -->
-      <button id="btn-retry" class="btn btn-secondary" type="button">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-        Try Another Recording
-      </button>
-    </section>
+      <!-- WORD ANALYSIS -->
+      <div class="card">
+        <h3>Transcript Analysis</h3>
+        <p class="text-muted mb-4">Click on flagged words for specific feedback and IPA guidance.</p>
+        <div id="word-analysis" class="word-flow"></div>
+        
+        <div class="legend mt-4">
+          <span class="legend-item"><span class="legend-dot correct"></span> Clear</span>
+          <span class="legend-item"><span class="legend-dot unclear"></span> Unclear</span>
+          <span class="legend-item"><span class="legend-dot mispronounced"></span> Needs Correction</span>
+        </div>
+      </div>
 
-    <!-- ─── Privacy Section ──────────────────────────────────── -->
-    <section id="privacy" class="card glass privacy-card animate-in">
-      <h2 class="section-title">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Privacy &amp; Data Protection
-      </h2>
-      <p class="privacy-intro">
-        This app is designed with India's <strong>Digital Personal Data Protection Act (DPDP) 2023</strong> in mind:
-      </p>
-      <ul class="privacy-list">
-        <li>
-          <strong>Zero Storage</strong> — Audio is processed entirely in memory and discarded immediately after analysis. Nothing is written to disk or any database.
-        </li>
-        <li>
-          <strong>No Accounts</strong> — No personal data, email, or identifiers are collected. Ever.
-        </li>
-        <li>
-          <strong>Consent-First</strong> — Audio is only sent for analysis after you explicitly consent.
-        </li>
-        <li>
-          <strong>Transparent Processing</strong> — Your audio is sent to OpenAI's Whisper and GPT-4o-mini APIs (US-based servers) for transcription and analysis. No other third parties receive your data.
-        </li>
-        <li>
-          <strong>Purpose-Limited</strong> — Audio is used solely for pronunciation assessment. It is not used for model training, analytics, or any secondary purpose.
-        </li>
-        <li>
-          <strong>Automatic Deletion</strong> — Since no data is stored, there is nothing to delete. The assessment results exist only in your browser session.
-        </li>
-      </ul>
-    </section>
+      <!-- WORD DETAIL FLYOUT/CARD -->
+      <div id="word-detail" class="card word-detail-card hidden">
+        <div class="word-detail-header">
+          <h4 id="detail-word">Word</h4>
+          <span id="detail-status-badge" class="badge">Status</span>
+        </div>
+        <div id="detail-content" class="word-detail-body"></div>
+      </div>
+    </div>
+    
+    <footer class="footer">
+      <p>Data Protection (DPDP 2023) Compliant. No audio or personal data is retained.</p>
+    </footer>
   </main>
-
-  <footer class="footer">
-    <p>
-      Pronunciation Coach&emsp;•&emsp;Powered by Whisper + GPT-4o-mini&emsp;•&emsp;<a href="#privacy">Privacy</a>
-    </p>
-  </footer>
 
   <script src="/static/app.js"></script>
 </body>
