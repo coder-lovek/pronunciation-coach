@@ -376,19 +376,21 @@
   function animateScore(cardId, target) {
     const card = $(`#${cardId}`);
     const valueEl = card.querySelector(".score-value");
-    const barFill = card.querySelector(".progress-bar-fill");
+    const ringFill = card.querySelector(".ring-fill");
+    const circumference = 2 * Math.PI * 50; // r = 50
 
     // Color based on score
     let color;
-    if (target >= 80) color = "var(--success)";
-    else if (target >= 60) color = "var(--warning)";
-    else color = "var(--danger)";
+    if (target >= 80) color = "#10b981";
+    else if (target >= 60) color = "#f59e0b";
+    else color = "#ef4444";
 
-    barFill.style.backgroundColor = color;
+    ringFill.style.stroke = color;
 
-    // Animate bar width
+    // Animate ring (after a tiny delay to trigger CSS transition)
     requestAnimationFrame(() => {
-      barFill.style.width = `${target}%`;
+      ringFill.style.strokeDashoffset =
+        circumference * (1 - target / 100);
     });
 
     // Count up
@@ -482,9 +484,9 @@
     // Reset word detail
     $("#word-detail").classList.add("hidden");
 
-    // Reset score bars
-    $$(".progress-bar-fill").forEach((r) => {
-      r.style.width = "0%";
+    // Reset score rings
+    $$(".ring-fill").forEach((r) => {
+      r.style.strokeDashoffset = 2 * Math.PI * 50;
     });
     $$(".score-value").forEach((v) => (v.textContent = "0"));
 
