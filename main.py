@@ -102,10 +102,10 @@ async def analyze_audio(
         )
 
     # ── Guard: API key must be present ──────────────────────────────
-    if not os.environ.get("OPENAI_API_KEY"):
+    if not os.environ.get("GROQ_API_KEY"):
         raise HTTPException(
             status_code=503,
-            detail="Service not configured. OPENAI_API_KEY is missing.",
+            detail="Service not configured. GROQ_API_KEY is missing.",
         )
 
     # ── Read file into memory ───────────────────────────────────────
