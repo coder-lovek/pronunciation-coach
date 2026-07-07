@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: pronunciation-coach
+    runtime: docker
+    repo: https://github.com/YOUR_USERNAME/pronunciation-coach
+    plan: free
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+    healthCheckPath: /api/health
